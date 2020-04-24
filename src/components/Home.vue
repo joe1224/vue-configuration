@@ -15,10 +15,10 @@
           <el-button size="mini" plain @click="topJustify">
             <i class="iconfont icon-jurassic-top"></i>
           </el-button>
-          <el-button size="mini" plain >
+          <el-button size="mini" plain @click="horizalignCenter">
             <i class="iconfont icon-jurassic_horizalign-center"></i>
           </el-button>
-          <el-button size="mini" plain>
+          <el-button size="mini" plain @click="verticalalignCenter">
             <i class="iconfont icon-jurassic_verticalalign-center"></i>
           </el-button>
         </el-row>
@@ -114,6 +114,36 @@
           this.$store.state.textStyles.moveY = imageY
         }
       },
+      horizalignCenter () {
+        let textX = this.$store.state.textStyles.moveX;
+        let imageX = this.$store.state.imageStyles.moveX;
+        let tH = this.$store.state.textStyles.height / 2; //text高度的一半
+        let iH = this.$store.state.imageStyles.height / 2; //image 高度的一半
+        let icenterY = this.$store.state.imageStyles.moveY + iH; //image 中心线
+        let tcenterY = this.$store.state.textStyles.moveY + tH;//text 中心线
+        if (textX < imageX) {
+          this.$store.state.imageStyles.moveY = tcenterY - iH;
+        } else {
+          console.log("图片中心线:"+icenterY+"------文字高度的一半："+tH+"------文字Y轴结果："+(icenterY - tH));
+          this.$store.state.textStyles.moveY = icenterY - tH;
+          console.log(this.$store.state.textStyles.moveY);
+        }
+      },
+      verticalalignCenter(){
+        let textX = this.$store.state.textStyles.moveX;
+        let imageX = this.$store.state.imageStyles.moveX;
+        let tW = this.$store.state.textStyles.width / 2; //text 宽度的一半
+        let iW = this.$store.state.imageStyles.width / 2; //image 宽度的一半
+        let icenterX = this.$store.state.imageStyles.moveX + iW; //image 中心线
+        let tcenterX = this.$store.state.textStyles.moveX + tW; //text 中心线
+        if (textX < imageX) {
+          this.$store.state.imageStyles.moveX = tcenterX - iW;
+        } else {
+          console.log("图片中心线:"+icenterX+"------文字宽度的一半："+tW+"------文字X轴结果："+(icenterX - tW));
+          this.$store.state.textStyles.moveX = icenterX - tW;
+          console.log(this.$store.state.textStyles.moveX);
+        }
+      }
     },
     computed: {},
 

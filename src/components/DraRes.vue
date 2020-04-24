@@ -71,7 +71,7 @@
         this.$store.state.imageStyles.moveX = x
         this.$store.state.imageStyles.moveY = y
         this.$store.state.imageStyles.width = width
-        this.$store.state.imageStyles.height = height
+        this.$store.state.imageStyles.height = height;
       },
       onDrag (x, y) {
         this.$store.state.imageStyles.moveX = x
@@ -99,13 +99,11 @@
         event.preventDefault()
         let infoJson = event.dataTransfer.getData('my-info')
         this.modulesImage = JSON.parse(infoJson)
-        console.log(this.modulesImage)
       },
       onDropText (event) {
         event.preventDefault()
         let infoJson = event.dataTransfer.getData('my-info')
         this.modulesText = JSON.parse(infoJson)
-        console.log(this.modulesImage)
       },
       remove () {
         console.log('remove')

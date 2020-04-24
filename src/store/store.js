@@ -6,18 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   // strict:true, //开启了严格模式
   state: {
-    switchElement:"image",
+    switchElement: 'image',
     imageStyles: {
-      moveX:200,
-      moveY:100,
-      width:100,
-      height:100
+      moveX: 200,
+      moveY: 100,
+      width: 100,
+      height: 100
     },
-    textStyles:{
-      moveX:400,
-      moveY:260,
-      width:100,
-      height:100
+    textStyles: {
+      moveX: 400,
+      moveY: 260,
+      width: 100,
+      height: 100
     }
   },
   getters: {
@@ -30,17 +30,18 @@ export default new Vuex.Store({
       })
       return saleProducts
     },
+
   },
   mutations: {
     reducePrice: (state, payload) => {
       // setTimeout(function () {
-        state.products.forEach(product => {
-          product.price += payload
-        })
+      state.products.forEach(product => {
+        product.price += payload
+      })
       // }, 3000)
     },
-    switchStatus:(state,payload)=>{
-        state.switchElement = payload;
+    switchStatus: (state, payload) => {
+      state.switchElement = payload
     }
   },
   actions: {

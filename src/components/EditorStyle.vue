@@ -27,9 +27,11 @@
       }
     },
     mounted () {
+
     },
     computed: {
       initContent(){
+        console.log(this.$store.state.switchElement);
         if(this.$store.state.switchElement === 'image'){
           return this.$store.state.imageStyles;
         }else {
