@@ -15,7 +15,6 @@
         :snap-tolerance="20"
         @refLineParams="getRefLineParams">
         <div @drop="onDrop($event)" @dragover.prevent style="height:100%;width: 100%;">
-          <!--          <view-text  :detail="lists"></view-text>-->
           <view-image :detail="modulesImage" @remove="remove"></view-image>
         </div>
       </vue-draggable-resizable>
@@ -68,27 +67,19 @@
     },
     methods: {
       onResize (x, y, width, height) {
-        this.$store.state.imageStyles.moveX = x
-        this.$store.state.imageStyles.moveY = y
-        this.$store.state.imageStyles.width = width
-        this.$store.state.imageStyles.height = height;
+        this.$store.commit('updateImgStyleResize', {x, y, width, height})
       },
       onDrag (x, y) {
-        this.$store.state.imageStyles.moveX = x
-        this.$store.state.imageStyles.moveY = y
+        this.$store.commit('updateImgStyleDrag', {x, y})
       },
       onActivated (ev) {
-        this.$store.commit('switchStatus',ev);
+        this.$store.commit('switchStatus', ev)
       },
       onResize2 (x, y, width, height) {
-        this.$store.state.textStyles.moveX = x
-        this.$store.state.textStyles.moveY = y
-        this.$store.state.textStyles.width = width
-        this.$store.state.textStyles.height = height
+        this.$store.commit('updateTextStyleResize', {x, y, width, height})
       },
       onDrag2 (x, y) {
-        this.$store.state.textStyles.moveX = x
-        this.$store.state.textStyles.moveY = y
+        this.$store.commit('updateTextStyleDrag', {x, y})
       },
       getRefLineParams (params) {
         const {vLine, hLine} = params

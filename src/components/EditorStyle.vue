@@ -26,9 +26,7 @@
       return {
       }
     },
-    mounted () {
-
-    },
+    mounted () {},
     computed: {
       initContent(){
         console.log(this.$store.state.switchElement);
@@ -37,10 +35,12 @@
         }else {
           return this.$store.state.textStyles;
         }
-      }
+      },
     },
     methods:{
-
+      updateAxisX(x){
+        // this.$store.commit('updateAxisX',x);
+      },
     }
   }
 </script>

@@ -42,7 +42,34 @@ export default new Vuex.Store({
     },
     switchStatus: (state, payload) => {
       state.switchElement = payload
-    }
+    },
+
+    updateAxisX(state,payload){
+    },
+
+    updateImgStyleResize(state,payload){
+      state.imageStyles.moveX = payload.x;
+      state.imageStyles.moveY = payload.y;
+      state.imageStyles.width = payload.width;
+      state.imageStyles.height = payload.height;
+    },
+
+    updateImgStyleDrag(state,payload){
+      state.imageStyles.moveX = payload.x;
+      state.imageStyles.moveY = payload.y;
+    },
+
+    updateTextStyleResize(state,payload){
+      state.textStyles.moveX = payload.x;
+      state.textStyles.moveY = payload.y;
+      state.textStyles.width = payload.width;
+      state.textStyles.height = payload.height;
+    },
+
+    updateTextStyleDrag(state,payload){
+      state.textStyles.moveX = payload.x;
+      state.textStyles.moveY = payload.y;
+    },
   },
   actions: {
     reducePrice: (context, payload) => {
