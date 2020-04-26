@@ -24,9 +24,15 @@
     name: 'EditorStyle',
     data(){
       return {
+        content:{}
       }
     },
-    mounted () {},
+    created () {
+
+    },
+    mounted () {
+
+    },
     computed: {
       initContent(){
         console.log(this.$store.state.switchElement);
@@ -35,12 +41,10 @@
         }else {
           return this.$store.state.textStyles;
         }
+        // return this.$store.dispatch('updateEditorData');
       },
     },
     methods:{
-      updateAxisX(x){
-        // this.$store.commit('updateAxisX',x);
-      },
     }
   }
 </script>

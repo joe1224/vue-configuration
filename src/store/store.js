@@ -8,14 +8,14 @@ export default new Vuex.Store({
   state: {
     switchElement: 'image',
     imageStyles: {
-      moveX: 200,
-      moveY: 100,
+      moveX: 0,
+      moveY: 0,
       width: 100,
       height: 100
     },
     textStyles: {
-      moveX: 400,
-      moveY: 260,
+      moveX: 0,
+      moveY: 0,
       width: 100,
       height: 100
     }
@@ -31,6 +31,15 @@ export default new Vuex.Store({
       return saleProducts
     },
 
+   /* updateEditorData:(state)=>{
+      console.log(state.switchElement);
+      if(state.switchElement === 'image'){
+        return state.imageStyles;
+      }else {
+        return state.textStyles;
+      }
+    }*/
+
   },
   mutations: {
     reducePrice: (state, payload) => {
@@ -44,31 +53,28 @@ export default new Vuex.Store({
       state.switchElement = payload
     },
 
-    updateAxisX(state,payload){
-    },
-
     updateImgStyleResize(state,payload){
-      state.imageStyles.moveX = payload.x;
-      state.imageStyles.moveY = payload.y;
+      state.imageStyles.moveX = payload.moveX;
+      state.imageStyles.moveY = payload.moveY;
       state.imageStyles.width = payload.width;
       state.imageStyles.height = payload.height;
     },
 
     updateImgStyleDrag(state,payload){
-      state.imageStyles.moveX = payload.x;
-      state.imageStyles.moveY = payload.y;
+      state.imageStyles.moveX = payload.moveX;
+      state.imageStyles.moveY = payload.moveY;
     },
 
     updateTextStyleResize(state,payload){
-      state.textStyles.moveX = payload.x;
-      state.textStyles.moveY = payload.y;
+      state.textStyles.moveX = payload.moveX;
+      state.textStyles.moveY = payload.moveY;
       state.textStyles.width = payload.width;
       state.textStyles.height = payload.height;
     },
 
     updateTextStyleDrag(state,payload){
-      state.textStyles.moveX = payload.x;
-      state.textStyles.moveY = payload.y;
+      state.textStyles.moveX = payload.moveX;
+      state.textStyles.moveY = payload.moveY;
     },
   },
   actions: {
@@ -76,6 +82,7 @@ export default new Vuex.Store({
       setTimeout(function () {
         context.commit('reducePrice', payload)
       }, 2000)
-    }
+    },
+
   }
 })

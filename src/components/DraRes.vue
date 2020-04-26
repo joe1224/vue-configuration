@@ -2,10 +2,11 @@
   <div>
     <div class="page">
       <vue-draggable-resizable
+        id="draImage"
         :x="imageStyles.moveX"
         :y="imageStyles.moveY"
-        :w="imageStyles.width"
-        :h="imageStyles.height"
+        :w="Iwidth"
+        :h="Iheight"
         @dragging="onDrag"
         @resizing="onResize"
         @activated="onActivated('image')"
@@ -15,20 +16,21 @@
         :snap-tolerance="20"
         @refLineParams="getRefLineParams">
         <div @drop="onDrop($event)" @dragover.prevent style="height:100%;width: 100%;">
-          <view-image :detail="modulesImage" @remove="remove"></view-image>
+          <view-image :detail="modulesImage" @remove="remove" tabindex="1"></view-image>
         </div>
       </vue-draggable-resizable>
       <vue-draggable-resizable
+        id="draText"
         @refLineParams="getRefLineParams"
         @dragging="onDrag2"
         @resizing="onResize2"
         @activated="onActivated('text')"
         :snap="true"
+        :parent="true"
         :x="textStyles.moveX"
         :y="textStyles.moveY"
-        :w="textStyles.width"
-        :h="textStyles.height">
-        <!--        <img src="../assets/images/logo.png"  :width="width" :height="height"/>-->
+        :w="Twidth"
+        :h="Theight">
         <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
           <view-text :detail="modulesText"></view-text>
         </div>
@@ -62,24 +64,36 @@
         modulesText: {},
         modulesImage: {},
         vLine: [],
-        hLine: []
+        hLine: [],
+        Iwidth: 1262,
+        Iheight: 800,
+        Twidth: 1262,
+        Theight: 800,
       }
     },
+    mounted () {
+      let draImage = document.getElementById('draImage');
+      draImage.style.left = 0;
+      draImage.style.top = 0;
+      let draText = document.getElementById('draText');
+      draText.style.left = 0;
+      draText.style.top = 0;
+    },
     methods: {
-      onResize (x, y, width, height) {
-        this.$store.commit('updateImgStyleResize', {x, y, width, height})
+      onResize (moveX, moveY, width, height) {
+        this.$store.commit('updateImgStyleResize', {moveX, moveY, width, height})
       },
-      onDrag (x, y) {
-        this.$store.commit('updateImgStyleDrag', {x, y})
+      onDrag (moveX, moveY) {
+        this.$store.commit('updateImgStyleDrag', {moveX, moveY})
       },
       onActivated (ev) {
-        this.$store.commit('switchStatus', ev)
+        this.$store.commit('switchStatus', ev);
       },
-      onResize2 (x, y, width, height) {
-        this.$store.commit('updateTextStyleResize', {x, y, width, height})
+      onResize2 (moveX, moveY, width, height) {
+        this.$store.commit('updateTextStyleResize', {moveX, moveY, width, height})
       },
-      onDrag2 (x, y) {
-        this.$store.commit('updateTextStyleDrag', {x, y})
+      onDrag2 (moveX, moveY) {
+        this.$store.commit('updateTextStyleDrag', {moveX, moveY})
       },
       getRefLineParams (params) {
         const {vLine, hLine} = params
@@ -90,14 +104,20 @@
         event.preventDefault()
         let infoJson = event.dataTransfer.getData('my-info')
         this.modulesImage = JSON.parse(infoJson)
+        this.Iwidth = this.$store.state.imageStyles.width
+        this.Iheight = this.$store.state.imageStyles.height
+
       },
       onDropText (event) {
         event.preventDefault()
         let infoJson = event.dataTransfer.getData('my-info')
         this.modulesText = JSON.parse(infoJson)
+        this.Twidth = this.$store.state.textStyles.width
+        this.Theight = this.$store.state.textStyles.height
       },
       remove () {
-        console.log('remove')
+        console.log('remove');
+        this.modulesImage={};
       },
     },
     computed: {
@@ -115,4 +135,6 @@
     border: 1px solid red;
     position: relative;
   }
+
+
 </style>
