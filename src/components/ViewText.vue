@@ -5,7 +5,7 @@
         color: detail.style.foreColor,
         textAlign: detail.style.textAlign,
         lineHeight: detail.style.lineHeight + 'px',
-    }">
+    }" @keyup.delete="del(detail)">
     {{detail.style.text}}
 </div>
 </template>
@@ -26,7 +26,10 @@ export default {
         }
     },
     methods: {
-
+      del(n){
+        console.log(n)
+        this.$emit('remove',n);
+      }
     }
 }
 </script>
