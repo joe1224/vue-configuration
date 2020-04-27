@@ -1,42 +1,19 @@
 <template>
   <div>
-    <div id="dragArea" class="page" @mousedown="createBlock">
-      <vue-draggable-resizable
-        id="draImage"
-        :x="imageStyles.moveX"
-        :y="imageStyles.moveY"
-        :w="Iwidth"
-        :h="Iheight"
-        :onDragStart="onDragStartCallback"
-        @dragging="onDrag"
-        @resizing="onResize"
-        @activated="onActivated('image')"
-        :parent="true"
-        :is-conflict-check="true"
-        :snap="true"
-        :snap-tolerance="20"
-        @refLineParams="getRefLineParams">
-        <div @drop="onDrop($event)" @dragover.prevent style="height:100%;width: 100%;">
-          <view-image :detail="modulesImage" @remove="remove" tabindex="1"></view-image>
-        </div>
-      </vue-draggable-resizable>
-      <vue-draggable-resizable
-        id="draText"
-        :onDragStart="onDragStartCallback"
-        @refLineParams="getRefLineParams"
-        @dragging="onDrag2"
-        @resizing="onResize2"
-        @activated="onActivated('text')"
-        :snap="true"
-        :parent="true"
-        :x="textStyles.moveX"
-        :y="textStyles.moveY"
-        :w="Twidth"
-        :h="Theight">
-        <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
-          <view-text :detail="modulesText" @remove="textRemove" tabindex="1"></view-text>
-        </div>
-      </vue-draggable-resizable>
+    <div id="dragArea" class="page">
+
+      <!--<div @drop="onDropImg($event)" @dragover.prevent style="height:100%;width: 100%;">
+        <view-image :detail="modulesImage" @remove="remove" tabindex="1"></view-image>
+      </div>-->
+
+      <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
+        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item"
+                   @remove="textRemove"
+                   @activated="handlActivate(item.type)"
+                   tabindex="1">
+        </view-text>
+      </div>
+
       <span class="ref-line v-line"
             v-for="item in vLine"
             v-show="item.display"
@@ -64,115 +41,61 @@
     },
     data () {
       return {
-        modulesText: {},
+        itemText: {},
+        modulesText: [],
         modulesImage: {},
         vLine: [],
         hLine: [],
-        Iwidth: 1262,
-        Iheight: 800,
-        Twidth: 1262,
-        Theight: 800,
       }
     },
     mounted () {
-      let draImage = document.getElementById('draImage')
-      draImage.style.left = 0
-      draImage.style.top = 0
-      let draText = document.getElementById('draText')
-      draText.style.left = 0
-      draText.style.top = 0
     },
     methods: {
-      onDragStartCallback (ev) {
-        ev.stopPropagation()
-      },
-      onResize (moveX, moveY, width, height) {
-        this.$store.commit('updateImgStyleResize', {moveX, moveY, width, height})
-      },
-      onDrag (moveX, moveY) {
-        this.$store.commit('updateImgStyleDrag', {moveX, moveY})
-      },
-      onActivated (ev) {
-        this.$store.commit('switchStatus', ev)
-      },
-      onResize2 (moveX, moveY, width, height) {
-        this.$store.commit('updateTextStyleResize', {moveX, moveY, width, height})
-      },
-      onDrag2 (moveX, moveY) {
-        this.$store.commit('updateTextStyleDrag', {moveX, moveY})
-      },
       getRefLineParams (params) {
         const {vLine, hLine} = params
         this.vLine = vLine
         this.hLine = hLine
       },
-      onDrop (event) {
-        event.preventDefault()
-        let infoJson = event.dataTransfer.getData('my-info')
-        this.modulesImage = JSON.parse(infoJson)
-        this.Iwidth = this.$store.state.imageStyles.width
-        this.Iheight = this.$store.state.imageStyles.height
-
+      onDropImg (event) {
+        event.preventDefault();
+        let infoJson = event.dataTransfer.getData('my-info');
+        this.modulesImage = JSON.parse(infoJson);
       },
       onDropText (event) {
-        event.preventDefault()
-        let infoJson = event.dataTransfer.getData('my-info')
-        this.modulesText = JSON.parse(infoJson)
-        this.Twidth = this.$store.state.textStyles.width
-        this.Theight = this.$store.state.textStyles.height
+        console.log(event);
+        event.preventDefault();
+        let infoJson = event.dataTransfer.getData('my-info');
+        this.itemText = JSON.parse(infoJson);
+        let component = this.itemText;
+        this.modulesText.push(this.itemText);
+        console.log(this.modulesText);
+        this.$store.commit('components',{component});
+        let x = this.itemText.style.x;
+        let y = this.itemText.style.y;
+        let w = this.itemText.style.w;
+        let h = this.itemText.style.h;
+        this.$store.commit('updateTextStyleResize',{x,y,w,h});
       },
       remove () {
         this.modulesImage = {}
       },
+      handlActivate(type){
+        this.$store.commit('switchStatus',type);
+      },
       textRemove () {
-        this.modulesText = {}
-      },
-      createBlock (e) {
-        e.stopPropagation()
-        let bgBlock = document.getElementById('bgBlock')
-        let dragArea = document.getElementById('dragArea')
-        let initL = e.clientX
-        let initT = e.clientY
-        bgBlock.style.opacity = '0.3'
-        bgBlock.style.width = 0 + 'px'
-        bgBlock.style.height = 0 + 'px'
-        document.onmousemove = (e) => {
-          let w = e.clientX - initL
-          let h = e.clientY - initT
-          bgBlock.style.width = Math.abs(w) + 'px'
-          bgBlock.style.height = Math.abs(h) + 'px'
-          if (e.clientX - initL > 0) {
-            this.setPosition(bgBlock, initT - dragArea.offsetTop, initL - dragArea.offsetLeft)
-          } else {
-            this.setPosition(bgBlock, initT - dragArea.offsetTop + h, initL - dragArea.offsetLeft + w)
-          }
-        }
-        document.onmouseup = () => {
-          document.onmousemove = null
-          document.onmouseup = null
-        }
-
-      },
-
-      setPosition (obj, top, left) {
-        if (top !== -1) obj.style.top = top + 'px'
-        if (left !== -1) obj.style.left = left + 'px'
+        this.itemText = {}
       },
 
     },
-    computed: {
-      ...mapState([
-        'imageStyles', 'textStyles'
-      ])
-    }
+    computed: {}
   }
 </script>
 <style>
   .page {
     height: 800px;
     width: 100%;
-    box-sizing: content-box;
     border: 1px solid red;
+    box-sizing: content-box;
     position: relative;
   }
 

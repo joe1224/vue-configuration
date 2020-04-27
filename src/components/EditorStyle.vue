@@ -3,18 +3,24 @@
     <div class="title-style">{{$t('message.style')}}</div>
     <el-form label-position="left" label-width="80px" class="padding-2">
       <el-form-item label="X" size="mini">
-        <el-input v-model.number="initContent.moveX" type="number"></el-input>
+        <el-input v-model.number="initContent.x" type="number"></el-input>
       </el-form-item>
       <el-form-item label="Y">
-        <el-input v-model.number="initContent.moveY" type="number"></el-input>
+        <el-input v-model.number="initContent.y" type="number"></el-input>
       </el-form-item>
       <el-form-item label="Width" size="mini">
-        <el-input v-model.number="initContent.width" type="number"></el-input>
+        <el-input v-model.number="initContent.w" type="number"></el-input>
       </el-form-item>
       <el-form-item label="Height">
-        <el-input v-model.number="initContent.height" type="number"></el-input>
+        <el-input v-model.number="initContent.h" type="number"></el-input>
       </el-form-item>
     </el-form>
+    <!--<div v-for="(item ,index) in components" :key="index">
+      <p>{{item.style.x}}</p>
+      <p>{{item.style.y}}</p>
+      <p>{{item.style.w}}</p>
+      <p>{{item.style.h}}</p>
+    </div>-->
   </div>
 </template>
 
@@ -35,14 +41,27 @@
     },
     computed: {
       initContent(){
-        console.log(this.$store.state.switchElement);
-        if(this.$store.state.switchElement === 'image'){
+        /*if(this.$store.state.switchElement === 'image'){
           return this.$store.state.imageStyles;
         }else {
           return this.$store.state.textStyles;
+        }*/
+        let com = this.$store.state.components;
+        for(let i of com){
+          console.log(i);
+          if(this.$store.state.switchElement===i.type){
+            return i.style;
+          }
         }
-        // return this.$store.dispatch('updateEditorData');
+        /*if(this.$store.state.switchElement === 'image'){
+          return this.$store.state.imageStyles;
+        }else {
+          return this.$store.state.textStyles;
+        }*/
       },
+      ...mapState([
+        'components'
+      ])
     },
     methods:{
     }

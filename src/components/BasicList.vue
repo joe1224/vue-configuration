@@ -26,6 +26,7 @@
     data(){
       return {
         toolbox:[],
+        count:0,
       }
     },
     mounted () {
@@ -35,6 +36,13 @@
     },
     methods:{
       onDragstart(event, info){
+        let type = info.info.type;
+        this.count++;
+        if(this.count>1){
+          info.info.type = type.substring(0, type.length - 1)+this.count;
+        }else {
+          info.info.type =info.info.type+this.count;
+        }
         let infoJson = JSON.stringify(info.info);
         event.dataTransfer.setData('my-info', infoJson);
       },
