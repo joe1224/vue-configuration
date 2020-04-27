@@ -6,13 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   // strict:true, //开启了严格模式
   state: {
-    switchElement: '',
-    /*imageStyles: {
-      moveX: 0,
-      moveY: 0,
-      width: 100,
-      height: 100
-    },*/
+    switchElement: 'text',
     textStyles: {
       type: '',
       moveX: 0,
@@ -65,7 +59,7 @@ export default new Vuex.Store({
     },
 
     switchStatus: (state, payload) => {
-      state.switchElement = payload
+      state.switchElement = payload;
       console.log(state.switchElement)
     },
 
@@ -82,22 +76,28 @@ export default new Vuex.Store({
     },*/
 
     updateTextStyleResize (state, payload) {
-      state.textStyles.moveX = payload.moveX
-      state.textStyles.moveY = payload.moveY
-      state.textStyles.width = payload.width
-      state.textStyles.height = payload.height
+      console.log(payload.type); //缺少type
+      for(let i of state.components){
+        if(payload.type===i.type){
+          i.style.x = payload.x;
+          i.style.y = payload.y;
+          i.style.w = payload.w;
+          i.style.h = payload.h;
+        }
+      }
     },
 
     updateTextStyleDrag (state, payload) {
-      state.textStyles.moveX = payload.moveX
-      state.textStyles.moveY = payload.moveY
+      for(let i of state.components){
+        if(state.switchElement===i.type){
+          i.style.x = payload.moveX;
+          i.style.y = payload.moveY;
+        }
+      }
     },
 
     components (state, payload) {
       state.components.push(payload.component)
-      /*for(let i of state.components){
-        console.log(i.style);
-      }*/
     }
   },
   actions: {

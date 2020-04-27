@@ -30,7 +30,6 @@
     name: 'EditorStyle',
     data(){
       return {
-        content:{}
       }
     },
     created () {
@@ -41,27 +40,17 @@
     },
     computed: {
       initContent(){
-        /*if(this.$store.state.switchElement === 'image'){
-          return this.$store.state.imageStyles;
-        }else {
-          return this.$store.state.textStyles;
-        }*/
         let com = this.$store.state.components;
         for(let i of com){
-          console.log(i);
-          if(this.$store.state.switchElement===i.type){
+          if(this.$store.state.switchElement==i.type){
+              console.log(this.$store.state.switchElement);
             return i.style;
           }
         }
-        /*if(this.$store.state.switchElement === 'image'){
-          return this.$store.state.imageStyles;
-        }else {
-          return this.$store.state.textStyles;
-        }*/
       },
-      ...mapState([
+/*      ...mapState([
         'components'
-      ])
+      ])*/
     },
     methods:{
     }

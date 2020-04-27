@@ -42,7 +42,6 @@
     data () {
       return {
         itemText: {},
-        modulesText: [],
         modulesImage: {},
         vLine: [],
         hLine: [],
@@ -62,19 +61,12 @@
         this.modulesImage = JSON.parse(infoJson);
       },
       onDropText (event) {
-        console.log(event);
         event.preventDefault();
         let infoJson = event.dataTransfer.getData('my-info');
         this.itemText = JSON.parse(infoJson);
         let component = this.itemText;
-        this.modulesText.push(this.itemText);
-        console.log(this.modulesText);
         this.$store.commit('components',{component});
-        let x = this.itemText.style.x;
-        let y = this.itemText.style.y;
-        let w = this.itemText.style.w;
-        let h = this.itemText.style.h;
-        this.$store.commit('updateTextStyleResize',{x,y,w,h});
+//        this.$store.commit('updateTextStyleResize',{component});
       },
       remove () {
         this.modulesImage = {}
@@ -87,7 +79,11 @@
       },
 
     },
-    computed: {}
+    computed: {
+      ...mapState({
+        modulesText:'components'
+      })
+    }
   }
 </script>
 <style>

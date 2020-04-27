@@ -3,14 +3,14 @@
     :id="detail.style.type"
     :onDragStart="onDragStartCallback"
     @dragging="onDrag"
-    @resizing="onResize"
+    @resizing="onResize(id)"
     @activated="onActivated"
     :snap="true"
     :parent="true"
-    :x="textStyles.moveX"
-    :y="textStyles.moveY"
-    :w="textStyles.width"
-    :h="textStyles.height">
+    :x="ContentItem.x"
+    :y="ContentItem.y"
+    :w="ContentItem.w"
+    :h="ContentItem.h">
     <div class="view-text" v-if="detail.style!=undefined" :style="{
         fontSize: detail.style.fontSize + 'px',
         fontFamily: detail.style.fontFamily,
@@ -19,6 +19,7 @@
         lineHeight: detail.style.lineHeight + 'px',
     }" @keyup.delete="del(detail)">
       {{detail.style.text}}
+
     </div>
   </vue-draggable-resizable>
 </template>
@@ -37,10 +38,7 @@
     },
     data () {
       return {
-        /*Twidth: 100,
-        Theight: 100,
-        moveX: 50,
-        moveY: 50*/
+        lists:{}
       }
     },
     methods: {
@@ -50,8 +48,8 @@
       onDragStartCallback (ev) {
         ev.stopPropagation()
       },
-      onResize (moveX, moveY, width, height) {
-        this.$store.commit('updateTextStyleResize', {moveX, moveY, width, height})
+      onResize (type,x, y, w, h) {
+        this.$store.commit('updateTextStyleResize', {type,x, y, w, h})
       },
       onDrag (moveX, moveY) {
         this.$store.commit('updateTextStyleDrag', {moveX, moveY})
@@ -61,11 +59,17 @@
       },
     },
     computed: {
-      ...mapState([
-        'textStyles'
-      ])
+      ContentItem(){
+        let com = this.$store.state.components;
+        for(let i of com){
+          if(this.$store.state.switchElement==i.type){
+            return i.style;
+          }
+        }
+      },
     },
     mounted () {
+
     }
   }
 </script>
