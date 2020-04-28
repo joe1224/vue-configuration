@@ -14,17 +14,18 @@
     :y="detail.style.y"
     :w="detail.style.w"
     :h="detail.style.h">
-    <div class="view-text" v-if="detail.style!=undefined" :style="{
+    <div @keyup.delete="del(detail)" tabindex="1">
+      <div class="view-text" v-if="detail.style!=undefined" :style="{
         fontSize: detail.style.fontSize + 'px',
         fontFamily: detail.style.fontFamily,
         color: detail.style.foreColor,
         textAlign: detail.style.textAlign,
-        lineHeight: detail.style.lineHeight + 'px',
-    }" @keyup.delete="del(detail)">
-      {{detail.style.text}}
-
+        lineHeight: detail.style.lineHeight + 'px',}">
+        {{detail.style.text}}
+      </div>
     </div>
   </vue-draggable-resizable>
+
 </template>
 
 <script>
@@ -52,8 +53,8 @@
       del (n) {
         this.$emit('remove', n)
       },
-      getRefLineParams(params){
-        this.$emit('getRefLineParams',params)
+      getRefLineParams (params) {
+        this.$emit('getRefLineParams', params)
       },
       onDragStartCallback (ev) {
         ev.stopPropagation()

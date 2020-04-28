@@ -7,10 +7,12 @@
       </div>-->
 
       <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
-        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item" :type="item.type" @getRefLineParams="getRefLineParams"
-                   @remove="textRemove"
+        <view-text v-for="(item,index) in modulesText" :key="index" :type="item.type"
+                   :detail="item"
+                   @getRefLineParams="getRefLineParams"
+                   @remove="textRemove(item.type)"
                    @activated="handlActivate(item.type)"
-                   tabindex="1">
+        >
         </view-text>
       </div>
 
@@ -72,8 +74,13 @@
       handlActivate (type) {
         this.$store.commit('switchStatus', type)
       },
-      textRemove () {
-        this.itemText = {}
+      textRemove (type) {
+        let items = this.$store.state.components
+        for (let i in items) {
+          if (items[i].type === type) {
+            items.splice(i, 1)
+          }
+        }
       },
 
     },
