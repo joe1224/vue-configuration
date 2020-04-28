@@ -38,7 +38,7 @@
       "icon": "icon-image",
       "isFontIcon": true,
       "info": {
-        "type": "image",
+        "type": "Image",
         "action": [],
         "dataBind": {
           "sn": "",
@@ -47,8 +47,8 @@
           "queryParam": {}
         },
         "style": {
-            "x": 0,
-            "y": 0,
+            "x": 100,
+            "y": 100,
             "w": 100,
             "h": 100,
           "icon": "icon-image",

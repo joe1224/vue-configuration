@@ -5,8 +5,11 @@
     @dragging="(x,y) => onDrag(x,y, type)"
     @resizing="(x,y,w,h) => onResize(x,y,w,h, type)"
     @activated="onActivated"
-    :snap="true"
     :parent="true"
+    :is-conflict-check="true"
+    :snap="true"
+    :snap-tolerance="20"
+    @refLineParams="getRefLineParams"
     :x="detail.style.x"
     :y="detail.style.y"
     :w="detail.style.w"
@@ -48,6 +51,9 @@
     methods: {
       del (n) {
         this.$emit('remove', n)
+      },
+      getRefLineParams(params){
+        this.$emit('getRefLineParams',params)
       },
       onDragStartCallback (ev) {
         ev.stopPropagation()

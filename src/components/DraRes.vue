@@ -7,7 +7,7 @@
       </div>-->
 
       <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
-        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item" :type="item.type"
+        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item" :type="item.type" @getRefLineParams="getRefLineParams"
                    @remove="textRemove"
                    @activated="handlActivate(item.type)"
                    tabindex="1">
@@ -24,7 +24,6 @@
             v-show="item.display"
             :style="{ top: item.position, left: item.origin, width: item.lineLength}"
       />
-      <span id="bgBlock"></span>
     </div>
   </div>
 </template>
