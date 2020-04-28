@@ -7,21 +7,21 @@ export default new Vuex.Store({
   // strict:true, //开启了严格模式
   state: {
     switchElement: 'text',
-    textStyles: {
+    /*textStyles: {
       type: '',
       moveX: 0,
       moveY: 0,
       width: 100,
       height: 100
-    },
+    },*/
     components: [
       {
         type: 'text',
         action: [],
         dataBind: {},
         style: {
-          x: 0,
-          y: 0,
+          x: 50,
+          y: 50,
           w: 100,
           h: 100,
           backColor: 'transparent',
@@ -39,7 +39,7 @@ export default new Vuex.Store({
   },
   getters: {
     saleProducts: (state) => {
-      var saleProducts = state.products.map(item => {
+      let saleProducts = state.products.map(item => {
         return {
           name: item.name + '**',
           price: item.price
@@ -59,8 +59,7 @@ export default new Vuex.Store({
     },
 
     switchStatus: (state, payload) => {
-      state.switchElement = payload;
-      console.log(state.switchElement)
+      state.switchElement = payload
     },
 
     /*updateImgStyleResize(state,payload){
@@ -76,22 +75,21 @@ export default new Vuex.Store({
     },*/
 
     updateTextStyleResize (state, payload) {
-      console.log(payload.type); //缺少type
-      for(let i of state.components){
-        if(payload.type===i.type){
-          i.style.x = payload.x;
-          i.style.y = payload.y;
-          i.style.w = payload.w;
-          i.style.h = payload.h;
+      for (let i of state.components) {
+        if (state.switchElement == i.type) {
+          i.style.x = payload.x
+          i.style.y = payload.y
+          i.style.w = payload.w
+          i.style.h = payload.h
         }
       }
     },
 
     updateTextStyleDrag (state, payload) {
-      for(let i of state.components){
-        if(state.switchElement===i.type){
-          i.style.x = payload.moveX;
-          i.style.y = payload.moveY;
+      for (let i of state.components) {
+        if (state.switchElement == i.type) {
+          i.style.x = payload.x
+          i.style.y = payload.y
         }
       }
     },

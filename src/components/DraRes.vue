@@ -7,7 +7,7 @@
       </div>-->
 
       <div @drop="onDropText($event)" @dragover.prevent style="height:100%;width: 100%;">
-        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item"
+        <view-text v-for="(item,index) in modulesText" :key="index" :detail="item" :type="item.type"
                    @remove="textRemove"
                    @activated="handlActivate(item.type)"
                    tabindex="1">
@@ -56,23 +56,22 @@
         this.hLine = hLine
       },
       onDropImg (event) {
-        event.preventDefault();
-        let infoJson = event.dataTransfer.getData('my-info');
-        this.modulesImage = JSON.parse(infoJson);
+        event.preventDefault()
+        let infoJson = event.dataTransfer.getData('my-info')
+        this.modulesImage = JSON.parse(infoJson)
       },
       onDropText (event) {
-        event.preventDefault();
-        let infoJson = event.dataTransfer.getData('my-info');
-        this.itemText = JSON.parse(infoJson);
-        let component = this.itemText;
-        this.$store.commit('components',{component});
-//        this.$store.commit('updateTextStyleResize',{component});
+        event.preventDefault()
+        let infoJson = event.dataTransfer.getData('my-info')
+        this.itemText = JSON.parse(infoJson)
+        let component = this.itemText
+        this.$store.commit('components', {component})
       },
       remove () {
         this.modulesImage = {}
       },
-      handlActivate(type){
-        this.$store.commit('switchStatus',type);
+      handlActivate (type) {
+        this.$store.commit('switchStatus', type)
       },
       textRemove () {
         this.itemText = {}
@@ -81,7 +80,7 @@
     },
     computed: {
       ...mapState({
-        modulesText:'components'
+        modulesText: 'components'
       })
     }
   }

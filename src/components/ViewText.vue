@@ -1,16 +1,16 @@
 <template>
   <vue-draggable-resizable
-    :id="detail.style.type"
+    id="draText"
     :onDragStart="onDragStartCallback"
-    @dragging="onDrag"
-    @resizing="onResize(id)"
+    @dragging="(x,y) => onDrag(x,y, type)"
+    @resizing="(x,y,w,h) => onResize(x,y,w,h, type)"
     @activated="onActivated"
     :snap="true"
     :parent="true"
-    :x="ContentItem.x"
-    :y="ContentItem.y"
-    :w="ContentItem.w"
-    :h="ContentItem.h">
+    :x="detail.style.x"
+    :y="detail.style.y"
+    :w="detail.style.w"
+    :h="detail.style.h">
     <div class="view-text" v-if="detail.style!=undefined" :style="{
         fontSize: detail.style.fontSize + 'px',
         fontFamily: detail.style.fontFamily,
@@ -34,11 +34,15 @@
       detail: {
         type: Object,
         default: {},
+      },
+      type: {
+        type: String,
+        default: 'text',
       }
     },
     data () {
       return {
-        lists:{}
+        lists: {}
       }
     },
     methods: {
@@ -48,22 +52,25 @@
       onDragStartCallback (ev) {
         ev.stopPropagation()
       },
-      onResize (type,x, y, w, h) {
-        this.$store.commit('updateTextStyleResize', {type,x, y, w, h})
+      onResize (x, y, w, h, type) {
+        console.log(type)
+        console.log(this.$store.state.switchElement)
+        this.$store.commit('updateTextStyleResize', {x, y, w, h, type})
+
       },
-      onDrag (moveX, moveY) {
-        this.$store.commit('updateTextStyleDrag', {moveX, moveY})
+      onDrag (x, y, type) {
+        this.$store.commit('updateTextStyleDrag', {x, y, type})
       },
       onActivated (type) {
-        this.$emit('activated', type);
+        this.$emit('activated', type)
       },
     },
     computed: {
-      ContentItem(){
-        let com = this.$store.state.components;
-        for(let i of com){
-          if(this.$store.state.switchElement==i.type){
-            return i.style;
+      ContentItem () {
+        let com = this.$store.state.components
+        for (let i of com) {
+          if (this.$store.state.switchElement == i.type) {
+            return i.style
           }
         }
       },

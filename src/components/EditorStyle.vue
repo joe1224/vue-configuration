@@ -15,22 +15,16 @@
         <el-input v-model.number="initContent.h" type="number"></el-input>
       </el-form-item>
     </el-form>
-    <!--<div v-for="(item ,index) in components" :key="index">
-      <p>{{item.style.x}}</p>
-      <p>{{item.style.y}}</p>
-      <p>{{item.style.w}}</p>
-      <p>{{item.style.h}}</p>
-    </div>-->
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
+
   export default {
     name: 'EditorStyle',
-    data(){
-      return {
-      }
+    data () {
+      return {}
     },
     created () {
 
@@ -39,34 +33,30 @@
 
     },
     computed: {
-      initContent(){
-        let com = this.$store.state.components;
-        for(let i of com){
-          if(this.$store.state.switchElement==i.type){
-              console.log(this.$store.state.switchElement);
-            return i.style;
+      initContent () {
+        let com = this.$store.state.components
+        for (let i of com) {
+          if (this.$store.state.switchElement == i.type) {
+            return i.style
           }
         }
       },
-/*      ...mapState([
-        'components'
-      ])*/
     },
-    methods:{
-    }
+    methods: {}
   }
 </script>
 
 <style scoped>
-.title-style {
-  height: 50px;
-  line-height: 50px;
-  color: #ffffff;
-  background-color: #4a4944;
-  text-align: left;
-  margin-bottom: 15px;
-  padding-left: 15px;
-}
+  .title-style {
+    height: 50px;
+    line-height: 50px;
+    color: #ffffff;
+    background-color: #4a4944;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-left: 15px;
+  }
+
   .padding-2 {
     padding: 20px;
   }
